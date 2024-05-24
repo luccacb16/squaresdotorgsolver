@@ -19,4 +19,4 @@ utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o solver
+	rm -f *.o solver utils/*.o
