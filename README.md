@@ -27,11 +27,16 @@ Ex: ```./solver 7 ifbzerpiedvheniw saida.txt```
 
 ## *auto.py*
 
-auto.py depende das libs *pyautogui* (mover e clicar automaticamente), *keyboard* (cancelar a execução) e *argparse* (receber parâmetros da execução). Para instalar, basta executar ```pip install -r requirements.txt```
+auto.py depende das libs *pyautogui* (mover e clicar automaticamente), *pynput* (mapear posição das letras), *keyboard* (cancelar a execução) e *argparse* (receber parâmetros da execução). Para instalar, basta executar ```pip install -r requirements.txt```
 
 Para rodar:
 ```
 py auto.py <caminho do arquivo com as palavras e posições> <delay em segundos até começar a resolver>
 ```
 
+Após executar o comando, clique na primeira letra e na letra na diagonal para baixo e à direita. Dessa forma, o programa mapeará a posição das letras e resolverá o jogo automaticamente após o tempo de delay definido.
+
 **Para interromper a execução, basta pressionar a tecla 'q'**
+
+## **Demo**
+![alt text](demo.gif)

@@ -1,11 +1,28 @@
-import pyautogui # type: ignore
-import keyboard # type: ignore
+from pynput import mouse
+import pyautogui
+import keyboard
 import time
 import argparse
 
-letras_pos = [
-    [(567 + 126 * y, 431 + 126 * x) for y in range(4)] for x in range(4)
-]
+click_pos = []
+
+def calc_pos(click_pos):
+    x1, y1 = click_pos[0]
+    x2, y2 = click_pos[1]
+    
+    dx = x2 - x1
+    dy = y2 - y1
+    
+    return [[(x1 + dx * y, y1 + dy * x) for y in range(4)] for x in range(4)]  
+
+def on_click(x, y, button, pressed):
+    # Verifica se o botão direito foi pressionado
+    if button == mouse.Button.left and pressed:
+        click_pos.append((x, y))
+        print(f"pos: ({x}, {y})")
+        
+        if len(click_pos) >= 2:
+            return False
 
 def parse_validas_file(file_path):
     words_positions = []
@@ -25,7 +42,7 @@ def parse_validas_file(file_path):
 def solve(results, letras_pos):
     for word, positions in results:
         if keyboard.is_pressed('q'):
-            print('Tecla de escape pressionada, saindo...')
+            print('Tecla de escape pressionada, parando...')
             break
         
         print(f'Palavra: {word} | Posições: {positions}')
@@ -50,7 +67,19 @@ def main():
 
     words_positions = parse_validas_file(args.file_path)
     
-    time.sleep(args.sleep_time)
+    with mouse.Listener(on_click=on_click) as listener:
+        print("Clique com o botão esquerdo para registrar as posições. Ouvindo os dois cliques...")
+        listener.join()
+    print()
+    
+    letras_pos = calc_pos(click_pos)
+    
+    print(f'Iniciando em:')
+    for i in range(args.sleep_time, 0, -1):
+        print(f'{i}')
+        time.sleep(1)
+    print('Resolvendo!\n')
+
     solve(words_positions, letras_pos)
 
 if __name__ == "__main__":
