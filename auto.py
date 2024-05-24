@@ -1,8 +1,8 @@
-import pyautogui  # type: ignore
-import keyboard  # type: ignore
+import pyautogui # type: ignore
+import keyboard # type: ignore
 import time
+import argparse
 
-# Definindo o positionsMap (extraído do notebook)
 letras_pos = [
     [(567 + 126 * y, 431 + 126 * x) for y in range(4)] for x in range(4)
 ]
@@ -42,10 +42,15 @@ def solve(results, letras_pos):
         time.sleep(0.7)
 
 def main():
-    file_path = 'validas.txt'
-    words_positions = parse_validas_file(file_path)
+    parser = argparse.ArgumentParser(description='squares.org autosolver')
+    parser.add_argument('file_path', type=str, help='Caminho para o arquivo de palavras válidas')
+    parser.add_argument('sleep_time', type=int, help='Tempo em segundos para o delay inicial')
+
+    args = parser.parse_args()
+
+    words_positions = parse_validas_file(args.file_path)
     
-    time.sleep(3)  # Tempo para o usuário se preparar
+    time.sleep(args.sleep_time)
     solve(words_positions, letras_pos)
 
 if __name__ == "__main__":
